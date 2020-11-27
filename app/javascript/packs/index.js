@@ -15,13 +15,13 @@ import MyMenu from "./layout/menu";
 ReactDOM.render(
   <Router>
     <Layout className="layout">
+        
         <Header>
-
           <MyGrid>
             <MyMenu/>
           </MyGrid>
-
         </Header>
+
         <Content style={{ padding: '0 50px' }}>
           <div className="site-layout-content">
           <MyGrid>
@@ -29,6 +29,7 @@ ReactDOM.render(
           </MyGrid>
           </div>
         </Content>
+        
       </Layout>
   </Router>,
   document.getElementById("root")
