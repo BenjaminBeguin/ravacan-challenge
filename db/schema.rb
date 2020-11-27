@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 2020_11_27_194211) do
 
   create_table "components", force: :cascade do |t|
     t.string "name"
-    t.boolean "isRoot"
-    t.integer "price"
+    t.boolean "isRoot", default: false
+    t.integer "price", default: 0
     t.integer "supplier_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
