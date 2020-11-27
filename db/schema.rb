@@ -14,11 +14,11 @@ ActiveRecord::Schema.define(version: 2020_11_27_194211) do
 
   create_table "component_to_components", force: :cascade do |t|
     t.integer "component_id", null: false
-    t.integer "child_id", null: false
+    t.integer "subcomponent_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["child_id"], name: "index_component_to_components_on_child_id"
     t.index ["component_id"], name: "index_component_to_components_on_component_id"
+    t.index ["subcomponent_id"], name: "index_component_to_components_on_subcomponent_id"
   end
 
   create_table "components", force: :cascade do |t|
