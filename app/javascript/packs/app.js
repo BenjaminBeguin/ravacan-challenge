@@ -1,20 +1,23 @@
 import React from "react"
 
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import Home from './home'
+import Test from './test'
+
 
 export default function App()  {
 
   return (
     <div>
-    <BrowserRouter>
       <Switch>
         <Route exact path="/">
           <Home />
         </Route>
+        <Route exact path="/test">
+          <Test />
+        </Route>
       </Switch>
-    </BrowserRouter>
     </div>
   );
 

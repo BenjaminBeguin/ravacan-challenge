@@ -1,14 +1,35 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
+
+import {  Layout } from 'antd';
+const { Header, Content } = Layout;
+import 'antd/dist/antd.css';
 
 import App from "./app";
+import MyGrid from "./layout/grid";
+import MyMenu from "./layout/menu";
+
+
 
 ReactDOM.render(
-  <React.StrictMode>
-      <Router>
-          <App />
-      </Router>
-  </React.StrictMode>,
+  <Router>
+    <Layout className="layout">
+        <Header>
+
+          <MyGrid>
+            <MyMenu/>
+          </MyGrid>
+
+        </Header>
+        <Content style={{ padding: '0 50px' }}>
+          <div className="site-layout-content">
+          <MyGrid>
+            <App/>
+          </MyGrid>
+          </div>
+        </Content>
+      </Layout>
+  </Router>,
   document.getElementById("root")
 );

@@ -1,10 +1,10 @@
 import React from 'react'
 import {Link } from 'react-router-dom';
 
-export default function Home() {
+export default function Test() {
 
   return (
-    <Link to="/test">Test</Link>
+    <Link to="/">Home</Link>
   )
 
 }
