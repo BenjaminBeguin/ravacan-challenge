@@ -7,7 +7,7 @@ class Api::ProductsController < ApplicationController
   end
 
   def show
-    render json: @product
+    render json: @product.get_tree
   end
 
   private

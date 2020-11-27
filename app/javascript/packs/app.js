@@ -1,9 +1,9 @@
 import React from "react"
 
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom';
 
-import Home from './home'
-import Test from './test'
+import Products from './products/products';
+import Product from './products/product'
 
 
 export default function App()  {
@@ -12,10 +12,10 @@ export default function App()  {
     <div>
       <Switch>
         <Route exact path="/">
-          <Home />
+          <Products />
         </Route>
-        <Route exact path="/test">
-          <Test />
+        <Route path="/products/:id">
+          <Product />
         </Route>
       </Switch>
     </div>
