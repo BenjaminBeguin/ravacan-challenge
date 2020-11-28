@@ -1,17 +1,26 @@
 const api = "/api/";
 
-export function get(resource) {
-  return fetch(api+resource)
-    .then(data => data.json())
+export function get(endpoint) {
+  return fetch(api+endpoint)
+    .then(handleErrors)
 }
 
-// export function setItem(item) {
-//  return fetch('http://localhost:3333/list', {
-//    method: 'POST',
-//    headers: {
-//      'Content-Type': 'application/json'
-//    },
-//    body: JSON.stringify({ item })
-//  })
-//    .then(data => data.json())
-// }
+export function post(endpoint, resource, params) {
+  const token = document.getElementsByName('csrf-token')[0].content;
+  return fetch(api+endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json', 
+      'Accept': 'application/json',
+      'X-CSRF-Token': token},
+    body: JSON.stringify(params)
+  })
+    .then(handleErrors)
+}
+
+function handleErrors(response) {
+  if (!response.ok){
+    throw response;
+  }
+  return response.json();
+}

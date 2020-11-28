@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 
-import {  Menu  } from 'antd';
+import {  Menu, Button  } from 'antd';
 const { SubMenu } = Menu;
 
 export default function MyMenu() {
@@ -23,6 +23,11 @@ export default function MyMenu() {
             <Menu.Item key="setting:4">Option 4</Menu.Item>
           </Menu.ItemGroup>
         </SubMenu>
+        <div style={{float: 'right'}}>
+          <Button ghost >
+            <Link to="products/new">New Product</Link>
+            </Button>
+        </div>
     </Menu>
   )
 }

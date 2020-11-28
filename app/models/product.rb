@@ -4,6 +4,7 @@ class Product < ApplicationRecord
     through: :product_to_component, source: :component
   #TODO: Delete root_component on product delete.
 
+  validates :name, presence: true, uniqueness: true
   after_create :create_root_component
 
   include Tree

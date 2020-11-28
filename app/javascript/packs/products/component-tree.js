@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {  Tree  } from 'antd';
+import {  Tree, Button } from 'antd';
 const { TreeNode } = Tree;
 
 const ComponentTree = ({treeData}) => {
@@ -26,20 +26,6 @@ const ComponentTree = ({treeData}) => {
     setSelectedKeys(selectedKeys);
   };
 
-  const renderTreeNodes = (data) => {
-    data.map(item => {
-
-      if (item.treeData) {
-        return (
-          <TreeNode title={item.name} key={item.name} dataRef={item}>
-            {renderTreeNodes(item.treeData)}
-          </TreeNode>
-        )
-      }
-      return <TreeNode key={item.name} {...item} />
-    });
-      }
-
   return (
     <>
       {treeData && <Tree
@@ -51,7 +37,8 @@ const ComponentTree = ({treeData}) => {
         checkedKeys={checkedKeys}
         onSelect={onSelect}
         selectedKeys={selectedKeys}
-        treeData={treeData}/>
+        treeData={treeData} />
+        // titleRender={(value) => <Button>{value.name}</Button>}
       }
     </>
   );
