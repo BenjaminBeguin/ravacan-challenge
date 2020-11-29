@@ -18,13 +18,12 @@ const ComponentTree = ({ product }) => {
   const [productTree, setProductTree] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   // Antd Tree state
-  const [expandedKeys, setExpandedKeys] = useState(['First Product']);
+  const [expandedKeys, setExpandedKeys] = useState(['first-product']);
   const [checkedKeys, setCheckedKeys]   = useState([]);
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
 
   useEffect(() => {
-    console.log('effect')
     if(!product.id) return
     get('products/' + product.id)
       .then(
@@ -98,7 +97,15 @@ const ComponentTree = ({ product }) => {
           selectedKeys={selectedKeys}
           titleRender={renderEl}
           treeData={productTree} />
-        {modalOpen && <MyModal modalOpen={modalOpen} selectedId={selectedId} />}
+        {modalOpen && 
+          <MyModal 
+            modalOpen={modalOpen} 
+            setModalOpen={setModalOpen} 
+            selectedId={selectedId} 
+            productId={product.id}
+            update={update}
+            setUpdate={setUpdate}
+            />}
       </>
     );
   }

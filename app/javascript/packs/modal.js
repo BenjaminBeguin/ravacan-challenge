@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import {  Modal, Button  } from 'antd';
 
-import { get } from './api';
+import { get, post } from './api';
 import ComponentList from './components/component-list'
 
 
@@ -30,15 +30,31 @@ export default function MyModal(props) {
 
   const handleOk = () => {
     setConfirmLoading(true);
-    setTimeout(() => {
-      setVisible(false);
-      setConfirmLoading(false);
-    }, 2000);
+
+    post('products/' + props.productId + '/trees', {
+      component_id: props.selectedId,
+      subcomponent_id: 12
+    })
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setConfirmLoading(false);
+          setVisible(false);
+          props.setModalOpen(false)
+          props.setUpdate(!props.update)
+        },
+        (error) => {
+          debugger
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
   };
 
   const handleCancel = () => {
     console.log('Clicked cancel button');
     setVisible(false);
+    props.setModalOpen(false)
   };
 
   return (

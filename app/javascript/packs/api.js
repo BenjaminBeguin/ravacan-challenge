@@ -5,7 +5,7 @@ export function get(endpoint) {
     .then(handleErrors)
 }
 
-export function post(endpoint, resource, params) {
+export function post(endpoint, params) {
   const token = document.getElementsByName('csrf-token')[0].content;
   return fetch(api+endpoint, {
     method: 'POST',

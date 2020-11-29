@@ -34,9 +34,8 @@ module Tree extend ActiveSupport::Concern
     return memo[node] if memo[node] # avoiding repeated subtree creation.
 
     subtree             = {}
-    subtree["name"]     = 
-    subtree["title"]    = 
-    subtree["key"]      = @components[node].first.name 
+    subtree["name"]     = @components[node].first.name
+    subtree["key"]      = @components[node].first.name.parameterize
     subtree["parent"]   = parent
     subtree["id"]       = @components[node].first.id 
     subtree["children"] = []
