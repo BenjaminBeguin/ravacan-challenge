@@ -13,6 +13,7 @@ module Tree extend ActiveSupport::Concern
       query
         .start_with(component_id: id) { select('0 depth') }
         .connect_by(subcomponent_id: :component_id)
+        .where(product_id: self.id)
         .select(query.prior[:depth] + 1, start_with: false)
     end.order('depth ASC')
   end

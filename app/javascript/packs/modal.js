@@ -33,7 +33,8 @@ export default function MyModal(props) {
 
     fetcher('products/' + props.productId + '/trees', {
       component_id: props.selectedId,
-      subcomponent_id: 12 //make dynamic
+      subcomponent_id: 12, //make dynamic
+      product_id: props.productId
     })
       .then(
         (result) => {
