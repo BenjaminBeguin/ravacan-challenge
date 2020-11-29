@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
 
-import { Typography } from 'antd';
+import { Typography, Row, Col, Button } from 'antd';
 const { Title } = Typography;
 
 import { get } from '../api'
@@ -11,6 +11,7 @@ export default function Product() {
   const [error, setError]       = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [product, setProduct]   = useState({});
+  const [cost, setCost]         = useState(null);
   const { id }                  = useParams();
 
   useEffect(() => {
@@ -34,8 +35,17 @@ export default function Product() {
   } else {
     return (
       <>
-      <Title level={2}>{product.name}</Title>
-      <ComponentTree product={product} />
+      <Row>
+        <Col xs={24} xl={20}>
+          <Title level={2}>{product.name} </Title>
+        </Col>
+        <Col xs={24} xl={4}>
+          <Button>Edit Product</Button>
+        </Col>
+      </Row>
+      <Title level={5}>Price: ${product.price} {cost ? `| Cost: $${cost}` : '' }</Title>
+      <Title level={3}>Tree View</Title>
+      <ComponentTree product={product} setCost={setCost} />
       </>
     );
   }

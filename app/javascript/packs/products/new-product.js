@@ -1,21 +1,22 @@
 import React from 'react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 
-import {  Form, Input, Button, Typography, notification } from 'antd';
+import {  
+Form, 
+Input, 
+InputNumber,
+Button, 
+Typography, 
+notification } from 'antd';
 const { Title } = Typography;
 
 import { fetcher } from '../api';
 import { successToast } from '../toast'
 
-const layout = {
-  wrapperCol: {
-    span: 6,
-  },
-};
-
 const NewProduct = () => {
   
   const onFinish = (values) => {
+    debugger
     console.log('Success:', values);
     fetcher('products', values)
       .then(
@@ -43,10 +44,13 @@ const NewProduct = () => {
     <>
     <Title level={2}>Create A New Product</Title>
     <Form
-      {...layout}
-      name="basic"
+      name="new-product"
+      wrapperCol={{
+        span: 6,
+      }}
+      layout="vertical"
       initialValues={{
-        remember: true,
+        price: 1000,
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -62,6 +66,22 @@ const NewProduct = () => {
         ]}
       >
         <Input />
+      </Form.Item>
+      <Form.Item
+        label="Price"
+        name="price"
+        rules={[
+          {
+            required: true,
+            message: 'The product price cannot be empty!',
+          },
+        ]}
+      >
+        <InputNumber
+          step={100}
+          formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+          parser={value => value.replace(/\$\s?|(,*)/g, '')}
+        />
       </Form.Item>
 
 

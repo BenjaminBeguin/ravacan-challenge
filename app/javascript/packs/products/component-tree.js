@@ -10,7 +10,7 @@ import MyModal from '../components/modal'
 let selectedNodes = [];
 let selectedId = null;
 
-const ComponentTree = ({ product }) => {
+const ComponentTree = ({ product, setCost }) => {
   // Porduct Tree state
   const [error, setError]       = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -30,6 +30,7 @@ const ComponentTree = ({ product }) => {
         (result) => {
           setIsLoaded(true);
           setProductTree(result.children);
+          setCost(result.cost)
         },
         (error) => {
           setIsLoaded(true);

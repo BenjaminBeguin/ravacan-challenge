@@ -21,7 +21,7 @@ module Tree extend ActiveSupport::Concern
   def create_tree edges, root_id
     adj_list           = get_adj_list(edges)
     tree               = self.attributes #product attrs.
-    tree["price"]      = get_price
+    tree["cost"]      = get_price
     tree["children"] = [] << get_subtree(adj_list, root_id, nil, {})
     return tree
   end
