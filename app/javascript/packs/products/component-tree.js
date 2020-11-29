@@ -4,7 +4,7 @@ import {  Tree, Button, Card, Tooltip } from 'antd';
 import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 const { TreeNode } = Tree;
 
-import { get } from '../api'
+import { get, fetcher } from '../api'
 import MyModal from '../modal'
 
 let selectedNodes = [];
@@ -25,7 +25,7 @@ const ComponentTree = ({ product }) => {
 
   useEffect(() => {
     if(!product.id) return
-    get('products/' + product.id)
+    get('products/' + product.id + '/tree')
       .then(
         (result) => {
           setIsLoaded(true);
@@ -67,16 +67,26 @@ const ComponentTree = ({ product }) => {
   };
 
   const addClick = (e, item) => {
-    //fire model
-    //user picks subcomp = child_id
-    //send post( CompoToComp.create(comp:item.id, subcomp: child_id) )
     selectedId = item.id;
     setModalOpen(true)
   };
 
   const removeClick = (e, item) => {
+    setIsLoaded(false);
     //send delete( CompoToComp.find(comp:item.parent, subcomp: item.id).destroy )
-    debugger
+    fetcher('products/' + product.id + '/trees/' + item.id, {
+      parent_id: item.parent
+    }, 'DELETE')
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setUpdate(!update)
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
   };
 
   if (error) {

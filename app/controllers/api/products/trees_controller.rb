@@ -14,6 +14,17 @@ class Api::Products::TreesController < ApplicationController
     end
   end
 
+  def destroy
+    edge = ComponentToComponent.find_by(component_id: params[:parent_id], 
+      subcomponent_id: params[:id]) 
+
+    if edge.destroy
+      render json: "ok".to_json, status: :ok 
+    else
+      render json: record.errors, status: :unprocessable_entity 
+    end
+  end
+
   private
   def tree_params
     params.require(:tree).permit(:component_id, :subcomponent_id)

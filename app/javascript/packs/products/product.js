@@ -35,7 +35,7 @@ export default function Product() {
     return (
       <>
       <Title level={2}>{product.name}</Title>
-      <ComponentTree product={product} setProduct={setProduct}/>
+      <ComponentTree product={product} />
       </>
     );
   }

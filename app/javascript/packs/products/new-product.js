@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 import {  Form, Input, Button, Typography, notification } from 'antd';
 const { Title } = Typography;
 
-import { post } from '../api';
+import { fetcher } from '../api';
 import { successToast } from '../toast'
 
 const layout = {
@@ -17,7 +17,7 @@ const NewProduct = () => {
   
   const onFinish = (values) => {
     console.log('Success:', values);
-    post('products', 'product', values)
+    fetcher('products', 'product', values)
       .then(
         (product) => {
           successToast({

@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
     resources :products, only: [:index, :show, :create, :destroy, :update] do
       scope module: 'products' do
-        get ':product_id/tree', to: 'trees#tree'
+        get 'tree', to: 'trees#tree'
         resources :trees, only: [:create, :destroy]
       end
     end

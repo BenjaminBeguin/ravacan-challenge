@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import {  Modal, Button  } from 'antd';
 
-import { get, post } from './api';
+import { get, fetcher } from './api';
 import ComponentList from './components/component-list'
 
 
@@ -31,9 +31,9 @@ export default function MyModal(props) {
   const handleOk = () => {
     setConfirmLoading(true);
 
-    post('products/' + props.productId + '/trees', {
+    fetcher('products/' + props.productId + '/trees', {
       component_id: props.selectedId,
-      subcomponent_id: 12
+      subcomponent_id: 12 //make dynamic
     })
       .then(
         (result) => {
@@ -44,7 +44,6 @@ export default function MyModal(props) {
           props.setUpdate(!props.update)
         },
         (error) => {
-          debugger
           setIsLoaded(true);
           setError(error);
         }
@@ -66,7 +65,6 @@ export default function MyModal(props) {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        {components && props.selectedId }
         {components && <ComponentList components={components} />}
       </Modal>
     </>
