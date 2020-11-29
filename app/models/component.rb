@@ -15,4 +15,6 @@ class Component < ApplicationRecord
 
   has_one :product_to_component
   has_one :product, through: :product_to_component
+
+  scope :non_roots, -> { where(isRoot: false) }
 end

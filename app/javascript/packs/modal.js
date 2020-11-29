@@ -1,18 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {  Modal, Button  } from 'antd';
 
+import { get } from './api';
+import ComponentList from './components/component-list'
+
+
 export default function MyModal(props) {
-  const [visible, setVisible] = useState(props.modalOpen);
+  const [visible, setVisible]               = useState(props.modalOpen);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Content of the modal');
-  console.log(props, visible)
-  const showModal = () => {
-    setVisible(true);
-  };
+
+  const [error, setError]           = useState(null);
+  const [isLoaded, setIsLoaded]     = useState(false);
+  const [components, setComponents] = useState([]);
+
+  useEffect(() => {
+    get('components/')
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setComponents(result);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
+  }, [])
 
   const handleOk = () => {
-    setModalText('The modal will be closed after two seconds');
     setConfirmLoading(true);
     setTimeout(() => {
       setVisible(false);
@@ -28,13 +44,14 @@ export default function MyModal(props) {
   return (
     <>
       <Modal
-        title="Title"
+        title="Select a subcomponent."
         visible={visible}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <p>{modalText}</p>
+        {components && props.selectedId }
+        {components && <ComponentList components={components} />}
       </Modal>
     </>
   );

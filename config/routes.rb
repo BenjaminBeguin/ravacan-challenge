@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :products, only: [:index, :show, :create, :destroy, :update]
+    resources :components, only: [:index, :show, :create, :destroy, :update]
   end
 
   get '*path', to: 'home#index'

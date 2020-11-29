@@ -8,8 +8,9 @@ import { get } from '../api'
 import MyModal from '../modal'
 
 let selectedNodes = [];
+let selectedId = null;
 
-const ComponentTree = ({ product, setProduct }) => {
+const ComponentTree = ({ product }) => {
   // Porduct Tree state
   const [error, setError]       = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -70,6 +71,7 @@ const ComponentTree = ({ product, setProduct }) => {
     //fire model
     //user picks subcomp = child_id
     //send post( CompoToComp.create(comp:item.id, subcomp: child_id) )
+    selectedId = item.id;
     setModalOpen(true)
   };
 
@@ -96,7 +98,7 @@ const ComponentTree = ({ product, setProduct }) => {
           selectedKeys={selectedKeys}
           titleRender={renderEl}
           treeData={productTree} />
-        {modalOpen && <MyModal modalOpen={modalOpen} />}
+        {modalOpen && <MyModal modalOpen={modalOpen} selectedId={selectedId} />}
       </>
     );
   }

@@ -38,6 +38,7 @@ module Tree extend ActiveSupport::Concern
     subtree["title"]    = 
     subtree["key"]      = @components[node].first.name 
     subtree["parent"]   = parent
+    subtree["id"]       = @components[node].first.id 
     subtree["children"] = []
 
     edges = adj_list[node] # array of edges for current node.
