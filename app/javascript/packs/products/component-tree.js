@@ -5,7 +5,7 @@ import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 const { TreeNode } = Tree;
 
 import { get, fetcher } from '../api'
-import MyModal from '../modal'
+import MyModal from '../components/modal'
 
 let selectedNodes = [];
 let selectedId = null;

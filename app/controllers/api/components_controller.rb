@@ -1,9 +1,9 @@
 class Api::ComponentsController < ApplicationController
-  before_action :set_component, only: [:show, :update, :destroy]
+  # before_action :set_component, only: [:show, :update, :destroy]
 
   def index
-    @components = Component.non_roots
-    render json: @components
+    @components = Component.non_roots.includes(:supplier)
+    render json: @components, include: ['supplier']
   end
 
 

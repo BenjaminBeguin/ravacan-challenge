@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import {  Modal, Button  } from 'antd';
 
-import { get, fetcher } from './api';
-import ComponentList from './components/component-list'
+import { get, fetcher } from '../api';
+import SearchableTable from '../searchable-table'
 
 
 export default function MyModal(props) {
@@ -13,27 +13,39 @@ export default function MyModal(props) {
   const [error, setError]           = useState(null);
   const [isLoaded, setIsLoaded]     = useState(false);
   const [components, setComponents] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   useEffect(() => {
-    get('components/')
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setComponents(result);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      )
-  }, [])
+    get('components')
+    .then(
+      (result) => {
+        return parseJson(result)
+      },
+      (error) => {
+        setIsLoaded(true);
+        setError(error);
+      }
+    )
+    .then((result) => {
+      setIsLoaded(true);
+      setComponents(result);
+    })
+  }, []);
+
+  const parseJson = (result) => {
+    result.map(item => {
+      item.key = item.id;
+      item.supplier = item.supplier.name
+    })
+    return result;
+  }
 
   const handleOk = () => {
     setConfirmLoading(true);
 
     fetcher('products/' + props.productId + '/trees', {
       component_id: props.selectedId,
-      subcomponent_id: 12, //make dynamic
+      subcomponent_ids: selectedRowKeys,
       product_id: props.productId
     })
       .then(
@@ -54,7 +66,8 @@ export default function MyModal(props) {
   const handleCancel = () => {
     console.log('Clicked cancel button');
     setVisible(false);
-    props.setModalOpen(false)
+    setSelectedRowKeys([]);
+    props.setModalOpen(false);
   };
 
   return (
@@ -66,7 +79,10 @@ export default function MyModal(props) {
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        {components && <ComponentList components={components} />}
+        {components && <SearchableTable 
+          data={components} 
+          checkable={true}
+          setSelectedRowKeys = {setSelectedRowKeys} />}
       </Modal>
     </>
   );

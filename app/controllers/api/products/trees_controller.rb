@@ -6,12 +6,18 @@ class Api::Products::TreesController < ApplicationController
   end
 
   def create
-    edge = ComponentToComponent.new(tree_params)
-    if edge.save
-      render json: edge, status: :created
-    else
-      render json: edge.errors, status: :unprocessable_entity
+    p = params["tree"]
+    
+    p["subcomponent_ids"].each do |id|
+      edge = ComponentToComponent.new(component_id: p["component_id"], 
+        subcomponent_id: id, product_id: p["product_id"])
+      if edge.save
+      else
+        render json: edge.errors, status: :unprocessable_entity
+      end
     end
+    
+    render json: "created".to_json, status: :created
   end
 
   def destroy
@@ -27,7 +33,7 @@ class Api::Products::TreesController < ApplicationController
 
   private
   def tree_params
-    params.require(:tree).permit(:component_id, :subcomponent_id, :product_id)
+    params.require(:tree).permit(:component_id, :subcomponent_ids, :product_id)
   end
 
 end
