@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_27_194211) do
+ActiveRecord::Schema.define(version: 2020_11_29_185007) do
 
   create_table "component_to_components", force: :cascade do |t|
     t.integer "component_id", null: false
@@ -42,6 +42,12 @@ ActiveRecord::Schema.define(version: 2020_11_27_194211) do
   end
 
   create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "suppliers", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
