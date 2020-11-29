@@ -4,7 +4,7 @@ class CreateComponents < ActiveRecord::Migration[6.0]
       t.string :name
       t.boolean :isRoot, default: false
       t.integer :price, default: 0
-      t.integer :supplier_id
+      t.references :supplier
 
       t.timestamps
     end

@@ -17,7 +17,7 @@ const NewProduct = () => {
   
   const onFinish = (values) => {
     console.log('Success:', values);
-    fetcher('products', 'product', values)
+    fetcher('products', values)
       .then(
         (product) => {
           successToast({

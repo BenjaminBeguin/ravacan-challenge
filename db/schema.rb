@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2020_11_29_185007) do
     t.integer "supplier_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["supplier_id"], name: "index_components_on_supplier_id"
   end
 
   create_table "product_to_components", force: :cascade do |t|
