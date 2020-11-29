@@ -21,7 +21,7 @@ module Tree extend ActiveSupport::Concern
     adj_list           = get_adj_list(edges)
     tree               = self.attributes #product attrs.
     tree["price"]      = get_price
-    tree["children"] = [] << get_subtree(adj_list, root_id, {})
+    tree["children"] = [] << get_subtree(adj_list, root_id, nil, {})
     return tree
   end
 
@@ -30,13 +30,14 @@ module Tree extend ActiveSupport::Concern
   end
   
   #can be done iteratively if needed.
-  def get_subtree adj_list, node, memo
+  def get_subtree adj_list, node, parent, memo
     return memo[node] if memo[node] # avoiding repeated subtree creation.
 
     subtree             = {}
     subtree["name"]     = 
-    subtree["key"]      = 
-    subtree["title"]    = @components[node].first.name
+    subtree["title"]    = 
+    subtree["key"]      = @components[node].first.name 
+    subtree["parent"]   = parent
     subtree["children"] = []
 
     edges = adj_list[node] # array of edges for current node.
@@ -44,7 +45,7 @@ module Tree extend ActiveSupport::Concern
 
     edges.each do |e|
       child = e[1]
-      subtree["children"] << get_subtree(adj_list, child, memo)
+      subtree["children"] << get_subtree(adj_list, child, node, memo)
     end
     memo[node] = subtree
     subtree
