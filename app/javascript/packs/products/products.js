@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Typography } from 'antd';
+import { Typography, List } from 'antd';
 const { Title } = Typography;
 
 import { get } from '../api';
@@ -34,13 +34,26 @@ export default function Products() {
     return (
       <>
       <Title level={2}>Products</Title>
-      <ul>
-        {products.map(product => (
-          <li key={product.id}>
-            <Link to={`products/${product.id}`}> {product.name} </Link>
-          </li>
-        ))}
-      </ul>
+      {products.length ? 
+        <List
+          className="products-list"
+          itemLayout="horizontal"
+          dataSource={products}
+          renderItem={product => (
+            <List.Item
+              actions={[<Link to={`products/${product.id}/edit`}> Edit </Link>, 
+              <Link to={`products/${product.id}`}> Delete </Link>]} 
+              >
+
+              <List.Item.Meta
+                title={<Link to={`products/${product.id}`}> {product.name} </Link>}
+                description="Product description."
+              />
+
+            </List.Item>
+          )}
+        />
+      : 'There are no products.'}
       </>
     );
   }

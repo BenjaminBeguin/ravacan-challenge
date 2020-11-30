@@ -4,7 +4,7 @@ import { Table, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 
-const columns = [ //can be an argument if needed.
+const cols = [ //default for components table, but can be overriden.
   {
     title: 'Name',
     dataIndex: 'name',
@@ -19,7 +19,7 @@ const columns = [ //can be an argument if needed.
   }
 ];
 
-export default function SearchableTable({ data, checkable, setSelectedRowKeys }) {
+export default function SearchableTable({ data, checkable, setSelectedRowKeys, columns=cols }) {
 
   const [filterTable, setFilterTable] = useState(null);
 

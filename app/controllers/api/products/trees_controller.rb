@@ -10,7 +10,7 @@ class Api::Products::TreesController < ApplicationController
     p = params["tree"]
 
     p["subcomponent_ids"].each do |id|
-      if !@product.can_add_edge?(p["component_id"], id) or p["component_id"] == id #cycle check
+      if !@product.can_add_edge?(p["component_id"], id) or p["component_id"] == id.to_i #cycle check
         render json: "Cannot add this component. Adding it will result in a cycle!".to_json, 
           status: :unprocessable_entity
         return

@@ -4,7 +4,8 @@ import {
 Form, 
 Input, 
 InputNumber,
-Button } from 'antd';
+Button,
+Card } from 'antd';
 
 import { fetcher } from '../api';
 import { successToast } from '../toast'
@@ -42,54 +43,56 @@ export default function ProductForm({ product, method='POST' }){
   };
 
   return(
-    <Form
-      name="new-product"
-      wrapperCol={{
-        span: 6,
-      }}
-      layout="vertical"
-      initialValues={{
-        name: product?.name,
-        price: product?.price || 0
-      }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-    >
-      <Form.Item
-        label="Name"
-        name="name"
-        rules={[
-          {
-            required: true,
-            message: 'The product name cannot be empty!',
-          },
-        ]}
+    <Card>
+      <Form
+        name="new-product"
+        wrapperCol={{
+          span: 6,
+        }}
+        layout="vertical"
+        initialValues={{
+          name: product?.name,
+          price: product?.price || 0
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
       >
-        <Input />
-      </Form.Item>
-      <Form.Item
-        label="Price"
-        name="price"
-        rules={[
-          {
-            required: true,
-            message: 'The product price cannot be empty!',
-          },
-        ]}
-      >
-        <InputNumber
-          step={100}
-          formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-          parser={value => value.replace(/\$\s?|(,*)/g, '')}
-        />
-      </Form.Item>
+        <Form.Item
+          label="Name"
+          name="name"
+          rules={[
+            {
+              required: true,
+              message: 'The product name cannot be empty!',
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Price"
+          name="price"
+          rules={[
+            {
+              required: true,
+              message: 'The product price cannot be empty!',
+            },
+          ]}
+        >
+          <InputNumber
+            step={100}
+            formatter={value => `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+            parser={value => value.replace(/\$\s?|(,*)/g, '')}
+          />
+        </Form.Item>
 
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          {reqParams.btnText} Product
-        </Button>
-      </Form.Item>
-    </Form>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            {reqParams.btnText} Product
+          </Button>
+        </Form.Item>
+      </Form>
+    </Card>
   );
 }

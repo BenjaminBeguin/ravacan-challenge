@@ -22,7 +22,7 @@ ReactDOM.render(
           </MyGrid>
         </Header>
 
-        <Content style={{ padding: '30px 50px' }}>
+        <Content style={{ padding: '30px 50px', background:'white' }}>
           <div className="site-layout-content">
           <MyGrid>
             <App/>
