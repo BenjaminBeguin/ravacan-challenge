@@ -137,6 +137,7 @@ const ComponentTree = ({ product, setCost }) => {
 function CustomNode(props) {
   const item = props.item;
   const selected = props.selected;
+
   return (
     <div id={item.key}>
       {item.name}
@@ -144,9 +145,9 @@ function CustomNode(props) {
         (<><Tooltip title="Add a subcomponent">
           <Button key={`${item.key}-add`} shape="circle" icon={<PlusCircleOutlined />} onClick={e => props.addClick(e, item)} />
         </Tooltip>
-        <Tooltip title="Remove this component">
+        {item.parent_id ? <Tooltip title="Remove this component">
           <Button key={`${item.key}-rm`} shape="circle" icon={<DeleteOutlined />} onClick={e => props.removeClick(e, item)} />
-        </Tooltip></>)
+        </Tooltip>:''}</>)
         :
         ''}
     </div>
