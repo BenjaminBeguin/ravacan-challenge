@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
-import {  Tree, Button, Card, Tooltip } from 'antd';
-import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
-const { TreeNode } = Tree;
+import { 
+Tree, 
+Button, 
+Card, 
+Tooltip,
+Space } from 'antd';
+import { 
+PlusCircleFilled, 
+DeleteFilled, DownOutlined } from '@ant-design/icons';
 
 import { get, fetcher } from '../utils/api'
 import MyModal from '../components/modal'
@@ -19,7 +25,7 @@ const ComponentTree = ({ product, setCost }) => {
   const [productTree, setProductTree] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   // Antd Tree state
-  const [expandedKeys, setExpandedKeys] = useState(['first-product']);
+  const [expandedKeys, setExpandedKeys] = useState([]);
   const [checkedKeys, setCheckedKeys]   = useState([]);
   const [selectedKeys, setSelectedKeys] = useState([]);
   const [autoExpandParent, setAutoExpandParent] = useState(true);
@@ -40,6 +46,7 @@ const ComponentTree = ({ product, setCost }) => {
         setIsLoaded(true);
         setProductTree(result.children);
         setCost(result.cost)
+        setExpandedKeys([result.children[0].key])
       })
   }, [product, update])
 
@@ -52,22 +59,16 @@ const ComponentTree = ({ product, setCost }) => {
   }
 
   const onExpand = (expandedKeys) => {
-    console.log('onExpand', expandedKeys); // if not set autoExpandParent to false, if children expanded, parent can not collapse.
-    // or, you can remove all expanded children keys.
-
     setExpandedKeys(expandedKeys);
     setAutoExpandParent(false);
   };
 
   const onCheck = (checkedKeys) => {
-    console.log('onCheck', checkedKeys);
     setCheckedKeys(checkedKeys);
   };
 
   const onSelect = (selectedKeys, info) => {
-    console.log('onSelect: ', info);
     selectedNodes = selectedKeys;
-    console.log(1,selectedNodes)
     setSelectedKeys(selectedKeys);
   };
 
@@ -76,7 +77,8 @@ const ComponentTree = ({ product, setCost }) => {
     if(selectedNodes?.includes(item.key))
       selected = true;
 
-    return <CustomNode item={item} selected={selected} addClick={addClick} removeClick={removeClick} />;
+    return <CustomNode item={item} selected={selected} 
+      addClick={addClick} removeClick={removeClick} />;
   };
 
   const addClick = (e, item) => {
@@ -108,7 +110,9 @@ const ComponentTree = ({ product, setCost }) => {
   } else {
     return (
       <>
+      <Card>
         <Tree
+          switcherIcon={<DownOutlined />}
           checkable
           onExpand={onExpand}
           expandedKeys={expandedKeys}
@@ -118,7 +122,9 @@ const ComponentTree = ({ product, setCost }) => {
           onSelect={onSelect}
           selectedKeys={selectedKeys}
           titleRender={renderEl}
-          treeData={productTree} />
+          treeData={productTree} 
+          style={{fontSize: '16px'}}/>
+        </Card>
         {modalOpen && 
           <MyModal 
             modalOpen={modalOpen} 
@@ -139,17 +145,21 @@ function CustomNode(props) {
   const selected = props.selected;
 
   return (
-    <div id={item.key}>
-      {item.name}
+    <div id={item.key} style={{padding: "5px 5px"}}>
+      <Space>
+      <span>{item.name}</span>
       {selected ?
         (<><Tooltip title="Add a subcomponent">
-          <Button key={`${item.key}-add`} shape="circle" icon={<PlusCircleOutlined />} onClick={e => props.addClick(e, item)} />
+          <Button key={`${item.key}-add`} shape="circle" 
+          icon={<PlusCircleFilled />} onClick={e => props.addClick(e, item)} />
         </Tooltip>
         {item.parent_id ? <Tooltip title="Remove this component">
-          <Button key={`${item.key}-rm`} shape="circle" icon={<DeleteOutlined />} onClick={e => props.removeClick(e, item)} />
+          <Button key={`${item.key}-rm`} shape="circle" 
+          icon={<DeleteFilled />} onClick={e => props.removeClick(e, item)} />
         </Tooltip>:''}</>)
         :
         ''}
+        </Space>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from "react-router-dom";
 
-import { Typography, Row, Col, Button } from 'antd';
+import { Typography, Button, Space } from 'antd';
 const { Title } = Typography;
 
 import { get } from '../utils/api'
@@ -35,16 +35,15 @@ export default function Product() {
   } else {
     return (
       <>
-      <Row>
-        <Col xs={24} xl={20}>
-          <Title level={2}>{product.name} </Title>
-        </Col>
-        <Col xs={24} xl={4}>
-          <Link to={`/products/${product.id}/edit`}><Button>Edit Product</Button></Link>
-        </Col>
-      </Row>
+      <Space>
+      <Title level={2} style={{display: 'inline-block'}}>{product.name} </Title>
+      <Link to={`/products/${product.id}/edit`}>
+        <Button style={{marginBottom: '13px'}}>Edit Product</Button>
+      </Link>
+      </Space>
       <Title level={5}>Price: ${product.price} {cost ? `| Cost: $${cost}` : '' }</Title>
       <Title level={3}>Tree View</Title>
+
       <ComponentTree product={product} setCost={setCost} />
       </>
     );
