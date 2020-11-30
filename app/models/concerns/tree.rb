@@ -1,10 +1,10 @@
 module Tree extend ActiveSupport::Concern
 
   def build_tree root_id
-    edges       = get_edges(root_id)
+    edges       = get_edges(root_id).to_a
     @ids        = edges.pluck(:subcomponent_id) << root_id #get IDs of all components for price calculation.
     @components = get_components(@ids).group_by(&:id)
-    create_tree(edges.distinct, root_id)
+    create_tree(edges.uniq, root_id)
   end
 
   def get_edges id
