@@ -25,7 +25,7 @@ export default function MyMenu() {
         </SubMenu>
         <div style={{float: 'right'}}>
           <Button ghost >
-            <Link to="products/new">New Product</Link>
+            <Link to="/products/new">New Product</Link>
             </Button>
         </div>
     </Menu>

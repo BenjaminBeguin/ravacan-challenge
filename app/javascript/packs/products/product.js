@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 import { Typography, Row, Col, Button } from 'antd';
 const { Title } = Typography;
@@ -40,7 +40,7 @@ export default function Product() {
           <Title level={2}>{product.name} </Title>
         </Col>
         <Col xs={24} xl={4}>
-          <Button>Edit Product</Button>
+          <Link to={`/products/${product.id}/edit`}><Button>Edit Product</Button></Link>
         </Col>
       </Row>
       <Title level={5}>Price: ${product.price} {cost ? `| Cost: $${cost}` : '' }</Title>
