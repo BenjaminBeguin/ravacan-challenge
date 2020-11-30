@@ -3,7 +3,8 @@ import { BrowserRouter as Router, useParams } from 'react-router-dom';
 
 import {   
 Typography, 
-notification } from 'antd';
+notification,
+Spin } from 'antd';
 const { Title } = Typography;
 
 import { get } from '../utils/api';
@@ -33,7 +34,7 @@ const NewProduct = () => {
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <Spin />;
   } else {
     return (
       <>

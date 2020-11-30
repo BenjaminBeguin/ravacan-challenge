@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from "react-router-dom";
 
-import { Typography, Button, Space } from 'antd';
+import { Typography, Button, Space, Spin } from 'antd';
 const { Title } = Typography;
 
 import { get } from '../utils/api'
@@ -31,7 +31,7 @@ export default function Product() {
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <Spin />;
   } else {
     return (
       <>

@@ -1,9 +1,7 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-
 import {  Menu, Button  } from 'antd';
-const { SubMenu } = Menu;
 
 export default function MyMenu() {
   return (

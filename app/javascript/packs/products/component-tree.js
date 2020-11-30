@@ -5,7 +5,8 @@ Tree,
 Button, 
 Card, 
 Tooltip,
-Space } from 'antd';
+Space,
+Spin } from 'antd';
 import { 
 PlusCircleFilled, 
 DeleteFilled, DownOutlined } from '@ant-design/icons';
@@ -106,7 +107,7 @@ const ComponentTree = ({ product, setCost }) => {
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <Spin />;
   } else {
     return (
       <>

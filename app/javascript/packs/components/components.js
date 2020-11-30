@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { Typography, List } from 'antd';
+import { Typography, List, Spin } from 'antd';
 const { Title } = Typography;
 
 import SearchableTable from '../searchable-table'
@@ -32,7 +32,7 @@ export default function Components(props) {
   if (error) {
     return <div>Error: {error.message}</div>;
   } else if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <Spin />;
   } else {
     return (
       <>
