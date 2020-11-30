@@ -12,7 +12,6 @@ export default function MyModal(props) {
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const [error, setError]           = useState(null);
-  const [isLoaded, setIsLoaded]     = useState(false);
   const [components, setComponents] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
@@ -23,12 +22,10 @@ export default function MyModal(props) {
         return parseJson(result)
       },
       (error) => {
-        setIsLoaded(true);
         setError(error);
       }
     )
     .then((result) => {
-      setIsLoaded(true);
       setComponents(result);
     })
   }, []);
@@ -51,14 +48,13 @@ export default function MyModal(props) {
     })
       .then(
         (result) => {
-          setIsLoaded(true);
           setConfirmLoading(false);
           setVisible(false);
           props.setModalOpen(false)
           props.setUpdate(!props.update)
         },
         (error) => {
-          setIsLoaded(true);
+          setConfirmLoading(false);
           setError(error);
         }
       )
