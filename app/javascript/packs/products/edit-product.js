@@ -33,7 +33,7 @@ const NewProduct = () => {
   }, [])
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {error.statusText}</div>;
   } else if (!isLoaded) {
     return <Spin />;
   } else {
@@ -41,7 +41,7 @@ const NewProduct = () => {
       <>
       <Title level={2}>Edit {product.name}</Title>
       <ProductForm product={product} method="PATCH" />
-      <Title level={2}>Edit Product Components</Title>
+      <Title level={2} style={{marginTop: '12px'}}>Edit Product Components</Title>
       <ComponentTree product={product} />
       </>
     );

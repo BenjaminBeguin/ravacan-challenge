@@ -6,13 +6,12 @@ class Api::ComponentsController < ApplicationController
     render json: @components, include: ['supplier']
   end
 
-
   private
   # def component_params
   #   params.require(:component).permit(:name)
   # end
 
-  def set_component
-    @component = Component.find(params[:id])
-  end
+  # def set_component
+  #   @component = Component.find(params[:id])
+  # end
 end

@@ -1,7 +1,6 @@
 class Api::Products::TreesController < ApplicationController
   before_action :set_product, only: [:tree, :create]
 
-
   def tree
     render json: @product.get_tree
   end
@@ -20,13 +19,12 @@ class Api::Products::TreesController < ApplicationController
         subcomponent_id: id, product_id: p["product_id"])
       
       if edge.save
+        render json: "Component Added.".to_json, status: :created
       else
         render json: edge.errors, status: :unprocessable_entity
-        return
       end
     end
     
-    render json: "created".to_json, status: :created
   end
 
   def destroy

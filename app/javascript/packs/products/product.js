@@ -29,7 +29,7 @@ export default function Product() {
   }, [])
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {error.statusText}</div>;
   } else if (!isLoaded) {
     return <Spin />;
   } else {

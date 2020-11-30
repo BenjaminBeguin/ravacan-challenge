@@ -4,8 +4,7 @@ import {  Modal, Button  } from 'antd';
 
 import { get, fetcher } from '../utils/api';
 import SearchableTable from '../searchable-table'
-import { genRandomString } from '../utils/helpers'
-
+import { parseTableJson } from '../utils/helpers'
 
 export default function MyModal(props) {
   const [visible, setVisible]               = useState(props.modalOpen);
@@ -19,7 +18,7 @@ export default function MyModal(props) {
     get('components')
     .then(
       (result) => {
-        return parseJson(result)
+        return parseTableJson(result)
       },
       (error) => {
         setError(error);
@@ -30,20 +29,12 @@ export default function MyModal(props) {
     })
   }, []);
 
-  const parseJson = (result) => {
-    result.map(item => {
-      item.key = item.id + '-' + genRandomString();
-      item.supplier = item.supplier ? item.supplier.name : ''
-    })
-    return result;
-  }
-
   const handleOk = () => {
     setConfirmLoading(true);
 
     fetcher('products/' + props.productId + '/trees', {
       component_id: props.selectedId,
-      subcomponent_ids: getIds(selectedRowKeys),
+      subcomponent_ids: selectedRowKeys,
       product_id: props.productId
     })
       .then(
@@ -66,10 +57,6 @@ export default function MyModal(props) {
     setSelectedRowKeys([]);
     props.setModalOpen(false);
   };
-
-  const getIds = (keys) => {
-    return keys.map((el) => {return el.split('-')[0]});
-  }
 
   return (
     <>
