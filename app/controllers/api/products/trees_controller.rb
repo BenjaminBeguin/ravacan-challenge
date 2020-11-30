@@ -8,15 +8,17 @@ class Api::Products::TreesController < ApplicationController
 
   def create
     p = params["tree"]
-    
+
     p["subcomponent_ids"].each do |id|
-      if !@product.can_add_edge?(p["component_id"], id)
+      if !@product.can_add_edge?(p["component_id"], id) or p["component_id"] == id #cycle check
         render json: "Cannot add this component. Adding it will result in a cycle!".to_json, 
           status: :unprocessable_entity
         return
       end
+
       edge = ComponentToComponent.new(component_id: p["component_id"], 
         subcomponent_id: id, product_id: p["product_id"])
+      
       if edge.save
       else
         render json: edge.errors, status: :unprocessable_entity
@@ -28,8 +30,7 @@ class Api::Products::TreesController < ApplicationController
   end
 
   def destroy
-    edge = ComponentToComponent.find_by(component_id: params[:parent_id], 
-      subcomponent_id: params[:id], product_id: params[:product_id]) 
+    edge = ComponentToComponent.find(params[:id]) 
 
     if edge.destroy
       render json: "ok".to_json, status: :ok 

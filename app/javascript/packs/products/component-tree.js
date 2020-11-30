@@ -6,6 +6,7 @@ const { TreeNode } = Tree;
 
 import { get, fetcher } from '../api'
 import MyModal from '../components/modal'
+import { genRandomString } from '../utils/helpers'
 
 let selectedNodes = [];
 let selectedId = null;
@@ -28,16 +29,27 @@ const ComponentTree = ({ product, setCost }) => {
     get('products/' + product.id + '/tree')
       .then(
         (result) => {
-          setIsLoaded(true);
-          setProductTree(result.children);
-          setCost(result.cost)
+          return parseJson(result)
         },
         (error) => {
           setIsLoaded(true);
           setError(error);
         }
       )
+      .then((result) => {
+        setIsLoaded(true);
+        setProductTree(result.children);
+        setCost(result.cost)
+      })
   }, [product, update])
+
+  const parseJson = (result) => {
+    result.children.map((item) => {
+      item.key = item.name + '-' + genRandomString()
+      if(item.children) parseJson(item)
+    })
+    return result;
+  }
 
   const onExpand = (expandedKeys) => {
     console.log('onExpand', expandedKeys); // if not set autoExpandParent to false, if children expanded, parent can not collapse.
@@ -68,16 +80,15 @@ const ComponentTree = ({ product, setCost }) => {
   };
 
   const addClick = (e, item) => {
-    selectedId = item.id;
+    selectedId = item.child_id;
     setModalOpen(true)
   };
 
   const removeClick = (e, item) => {
     setIsLoaded(false);
-    //send delete( CompoToComp.find(comp:item.parent, subcomp: item.id).destroy )
-    fetcher('products/' + product.id + '/trees/' + item.id, {
-      parent_id: item.parent
-    }, 'DELETE')
+
+    fetcher('products/' + product.id + '/trees/' + item.edge_id, 
+      {}, 'DELETE')
       .then(
         (result) => {
           setIsLoaded(true);

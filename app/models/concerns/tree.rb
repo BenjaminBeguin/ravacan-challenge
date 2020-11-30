@@ -1,11 +1,10 @@
 module Tree extend ActiveSupport::Concern
 
-  def build_tree id
-    edges       = get_edges(id)
-    uniq_edges  = edges.distinct
-    @ids        = edges.pluck(:subcomponent_id) << id #get IDs of all components for price calculation.
+  def build_tree root_id
+    edges       = get_edges(root_id)
+    @ids        = edges.pluck(:subcomponent_id) << root_id #get IDs of all components for price calculation.
     @components = get_components(@ids).group_by(&:id)
-    create_tree(uniq_edges, id) #pass distinct edges only, to avoid duplication.
+    create_tree(edges.distinct, root_id)
   end
 
   def get_edges id
@@ -19,34 +18,35 @@ module Tree extend ActiveSupport::Concern
   end
 
   def create_tree edges, root_id
-    adj_list           = get_adj_list(edges)
-    tree               = self.attributes #product attrs.
-    tree["cost"]      = get_price
-    tree["children"] = [] << get_subtree(adj_list, root_id, nil, {})
+    adj_list         = get_adj_list(edges)
+    tree             = self.attributes #product attrs.
+    tree["cost"]     = get_price
+    tree["children"] = [] << get_subtree(adj_list, root_id, nil, nil, {})
     return tree
   end
 
   def get_adj_list edges
-    edges.pluck(:component_id, :subcomponent_id).group_by {|e| e[0]}
+    edges.pluck(:component_id, :subcomponent_id, :id).group_by {|e| e[0]}
   end
   
   #can be done iteratively if needed.
-  def get_subtree adj_list, node, parent, memo
+  def get_subtree adj_list, node, parent, edge_id, memo
     return memo[node] if memo[node] # avoiding repeated subtree creation.
 
-    subtree             = {}
-    subtree["name"]     = @components[node].first.name
-    subtree["key"]      = @components[node].first.name.parameterize
-    subtree["parent"]   = parent
-    subtree["id"]       = @components[node].first.id 
-    subtree["children"] = []
+    subtree              = {}
+    subtree["name"]      = @components[node].first.name
+    subtree["parent_id"] = parent
+    subtree["edge_id"]   = edge_id
+    subtree["child_id"]  = @components[node].first.id 
+    subtree["children"]  = []
 
     edges = adj_list[node] # array of edges for current node.
     return subtree if edges.nil?
 
     edges.each do |e|
       child = e[1]
-      subtree["children"] << get_subtree(adj_list, child, node, memo)
+      _edge_id = e[2]
+      subtree["children"] << get_subtree(adj_list, child, node, _edge_id, memo)
     end
     memo[node] = subtree
     subtree
@@ -75,8 +75,11 @@ module Tree extend ActiveSupport::Concern
 
   # CYCLE DETECTION
   def can_add_edge? current_id, candidate_id
-    ancestors = get_ancestors(current_id).
-      pluck(:component_id, :product_id).group_by{|i| i[1]}[self.id]
+    ancestors = get_ancestors(current_id).pluck(:component_id, :product_id)
+    
+    return true if ancestors.empty?
+    
+    ancestors = ancestors.group_by{|i| i[1]}[self.id]
       .flatten.uniq
     
     return false if ancestors.include?(candidate_id)
