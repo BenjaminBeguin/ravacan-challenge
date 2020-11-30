@@ -19,4 +19,7 @@ class Component < ApplicationRecord
   belongs_to :supplier, optional: true
 
   scope :non_roots, -> { where(isRoot: false) }
+
+  # Validations
+  validates :name, presence: true, uniqueness: true
 end
