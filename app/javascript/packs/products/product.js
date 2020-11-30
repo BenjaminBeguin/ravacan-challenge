@@ -44,7 +44,7 @@ export default function Product() {
       <Title level={5}>Price: ${product.price} {cost ? `| Cost: $${cost}` : '' }</Title>
       <Title level={3}>Tree View</Title>
 
-      <ComponentTree product={product} setCost={setCost} />
+      <ComponentTree product={product} setCost={setCost} edit={false} />
       </>
     );
   }

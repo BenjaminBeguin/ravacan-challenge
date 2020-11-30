@@ -18,7 +18,7 @@ import { genRandomString } from '../utils/helpers'
 let selectedNodes = [];
 let selectedId = null;
 
-const ComponentTree = ({ product, setCost }) => {
+const ComponentTree = ({ product, setCost=null, edit=true }) => {
   // Porduct Tree state
   const [error, setError]       = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -46,7 +46,7 @@ const ComponentTree = ({ product, setCost }) => {
       .then((result) => {
         setIsLoaded(true);
         setProductTree(result.children);
-        setCost(result.cost)
+        if(setCost) setCost(result.cost)
         setExpandedKeys([result.children[0].key])
       })
   }, [product, update])
@@ -79,7 +79,7 @@ const ComponentTree = ({ product, setCost }) => {
       selected = true;
 
     return <CustomNode item={item} selected={selected} 
-      addClick={addClick} removeClick={removeClick} />;
+      addClick={addClick} removeClick={removeClick} edit={edit} />;
   };
 
   const addClick = (e, item) => {
@@ -114,7 +114,7 @@ const ComponentTree = ({ product, setCost }) => {
       <Card>
         <Tree
           switcherIcon={<DownOutlined />}
-          checkable
+          checkable={edit ? true : false}
           onExpand={onExpand}
           expandedKeys={expandedKeys}
           autoExpandParent={autoExpandParent}
@@ -126,7 +126,7 @@ const ComponentTree = ({ product, setCost }) => {
           treeData={productTree} 
           style={{fontSize: '16px'}}/>
         </Card>
-        {modalOpen && 
+        {modalOpen && edit &&
           <MyModal 
             modalOpen={modalOpen} 
             setModalOpen={setModalOpen} 
@@ -149,7 +149,7 @@ function CustomNode(props) {
     <div id={item.key} style={{padding: "5px 5px"}}>
       <Space>
       <span>{item.name}</span>
-      {selected ?
+      {selected && props.edit ?
         (<><Tooltip title="Add a subcomponent">
           <Button key={`${item.key}-add`} shape="circle" 
           icon={<PlusCircleFilled />} onClick={e => props.addClick(e, item)} />
