@@ -18,12 +18,9 @@ export default function App()  {
         <Route exact path="/" component={Products} />
         <Route exact path="/products" component={Products} />
         
-
         <Route exact path="/products/new" component={NewProduct} />
         <Route path="/products/:id/edit" component={EditProduct} />
         <Route path="/products/:id" component={Product} />
-
-
 
         <Route exact path="/components" component={Components} />
       </Switch>

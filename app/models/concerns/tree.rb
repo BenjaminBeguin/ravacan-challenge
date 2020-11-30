@@ -73,4 +73,21 @@ module Tree extend ActiveSupport::Concern
     return frequencies
   end
 
+  # CYCLE DETECTION
+  def can_add_edge? current_id, candidate_id
+    ancestors = get_ancestors(current_id).
+      pluck(:component_id, :product_id).group_by{|i| i[1]}[self.id]
+      .flatten.uniq
+    
+    return false if ancestors.include?(candidate_id)
+    return true
+  end
+  def get_ancestors id
+    ComponentToComponent.join_recursive do |query|
+      query.start_with(subcomponent_id: id)
+        .connect_by(subcomponent_id: :component_id)
+        .where(product_id: self.id)
+    end
+  end
+
 end
