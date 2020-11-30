@@ -6,7 +6,7 @@ Typography,
 notification } from 'antd';
 const { Title } = Typography;
 
-import { get } from '../api';
+import { get } from '../utils/api';
 import { successToast } from '../toast'
 import ProductForm from './product-form'
 

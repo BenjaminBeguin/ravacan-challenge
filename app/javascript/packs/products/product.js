@@ -4,7 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { Typography, Row, Col, Button } from 'antd';
 const { Title } = Typography;
 
-import { get } from '../api'
+import { get } from '../utils/api'
 import ComponentTree from './component-tree'
 
 export default function Product() {

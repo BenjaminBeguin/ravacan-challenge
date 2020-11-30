@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Typography, List } from 'antd';
 const { Title } = Typography;
 
-import { get } from '../api';
+import { get } from '../utils/api';
 
 
 export default function Products() {

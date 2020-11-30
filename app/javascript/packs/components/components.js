@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
+import { Typography, List } from 'antd';
+const { Title } = Typography;
+
 import SearchableTable from '../searchable-table'
-import { get } from '../api'
+import { get } from '../utils/api'
 import { parseTableJson } from '../utils/helpers'
 
 export default function Components(props) {
@@ -33,7 +36,7 @@ export default function Components(props) {
   } else {
     return (
       <>
-      <h2>Components</h2>
+      <Title level={2}>Components</Title>
       {components.length ? 
         <SearchableTable data={components} />
         : 'There are no components.' }

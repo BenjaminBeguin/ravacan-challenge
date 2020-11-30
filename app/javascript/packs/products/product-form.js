@@ -7,7 +7,7 @@ InputNumber,
 Button,
 Card } from 'antd';
 
-import { fetcher } from '../api';
+import { fetcher } from '../utils/api';
 import { successToast } from '../toast'
 
 export default function ProductForm({ product, method='POST' }){

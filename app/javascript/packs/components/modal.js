@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import {  Modal, Button  } from 'antd';
 
-import { get, fetcher } from '../api';
+import { get, fetcher } from '../utils/api';
 import SearchableTable from '../searchable-table'
 import { genRandomString } from '../utils/helpers'
 

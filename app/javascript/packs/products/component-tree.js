@@ -4,7 +4,7 @@ import {  Tree, Button, Card, Tooltip } from 'antd';
 import { PlusCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 const { TreeNode } = Tree;
 
-import { get, fetcher } from '../api'
+import { get, fetcher } from '../utils/api'
 import MyModal from '../components/modal'
 import { genRandomString } from '../utils/helpers'
 
