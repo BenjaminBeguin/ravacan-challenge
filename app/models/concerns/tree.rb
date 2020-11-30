@@ -41,14 +41,14 @@ module Tree extend ActiveSupport::Concern
     subtree["children"]  = []
 
     edges = adj_list[node] # array of edges for current node.
-    return subtree if edges.nil?
+    return subtree if edges.nil? #leaf
 
     edges.each do |e|
       child = e[1]
       _edge_id = e[2]
       subtree["children"] << get_subtree(adj_list, child, node, _edge_id, memo)
     end
-    memo[node] = subtree
+    memo[node] = subtree #mamoize for later.
     subtree
   end
 

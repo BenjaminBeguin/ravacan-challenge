@@ -29,7 +29,7 @@ export default function Product() {
   }, [])
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {error.statusText}</div>;
   } else if (!isLoaded) {
     return <Spin />;
   } else {
@@ -44,7 +44,7 @@ export default function Product() {
       <Title level={5}>Price: ${product.price} {cost ? `| Cost: $${cost}` : '' }</Title>
       <Title level={3}>Tree View</Title>
 
-      <ComponentTree product={product} setCost={setCost} />
+      <ComponentTree product={product} setCost={setCost} edit={false} />
       </>
     );
   }
